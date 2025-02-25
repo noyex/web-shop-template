@@ -1,5 +1,6 @@
 package com.noyex.fileservice.controller;
 
+import com.noyex.fileservice.service.IFileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -21,29 +22,29 @@ public class FileController {
     @Value("${file.storage.location}")
     private String storageLocation;
 
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body("File is empty");
-        }
-        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-        Path filePath = Paths.get(storageLocation, fileName);
-        Files.createDirectories(filePath.getParent());
-        Files.write(filePath, file.getBytes());
-        String fileUrl = "http://localhost:8084/files/brand_logos/" + fileName;
-        return ResponseEntity.ok(fileUrl);
+    private final IFileService fileService;
+
+    public FileController(IFileService fileService) {
+        this.fileService = fileService;
     }
 
-    @GetMapping("/{fileName}")
-    public ResponseEntity<Resource> getFile(@PathVariable String fileName) throws IOException {
-        Path filePath = Paths.get(storageLocation, fileName);
-        Resource resource = new UrlResource(filePath.toUri());
-        if (resource.exists() && resource.isReadable()) {
-            String contentType = Files.probeContentType(filePath);
-            return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(contentType))
-                    .body(resource);
+    @PostMapping("/upload")
+    public ResponseEntity<Long> uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            Long fileId = fileService.uploadFile(file);
+            return ResponseEntity.ok(fileId);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
         }
-        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/{fileId}")
+    public ResponseEntity<Resource> getFile(@PathVariable Long fileId) throws IOException {
+        Resource resource = fileService.getFile(fileId);
+        Path filePath = resource.getFile().toPath();
+        String contentType = Files.probeContentType(filePath);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .body(resource);
     }
 }
