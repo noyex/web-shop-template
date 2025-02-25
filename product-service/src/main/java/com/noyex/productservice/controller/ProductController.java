@@ -23,7 +23,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.createProduct(product));
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Product>> getAllProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
     }
