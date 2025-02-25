@@ -54,4 +54,10 @@ public class FileController {
     public ResponseEntity<List<FileEntity>> getAllFiles() {
         return ResponseEntity.ok(fileService.getAllFiles());
     }
+
+    @DeleteMapping("/delete/{fileId}")
+    public ResponseEntity<Void> deleteFile(@PathVariable Long fileId) {
+        fileService.deleteFile(fileId);
+        return ResponseEntity.ok().build();
+    }
 }

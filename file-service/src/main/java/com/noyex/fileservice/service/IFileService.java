@@ -10,4 +10,5 @@ public interface IFileService {
     Long uploadFile(MultipartFile file);
     Resource getFile(Long fileId);
     List<FileEntity> getAllFiles();
+    void deleteFile(Long fileId);
 }

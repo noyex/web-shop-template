@@ -67,4 +67,9 @@ public class FileService implements IFileService {
     public List<FileEntity> getAllFiles() {
         return fileRepository.findAll();
     }
+
+    @Override
+    public void deleteFile(Long fileId) {
+        fileRepository.deleteById(fileId);
+    }
 }
