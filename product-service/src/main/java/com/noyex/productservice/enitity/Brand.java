@@ -15,7 +15,7 @@ public class Brand {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String logo;
+    private Long logoFileId;
     private String description;
     @OneToMany(mappedBy = "brand", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Product> products = new ArrayList<>();

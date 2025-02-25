@@ -1,5 +1,6 @@
 package com.noyex.fileservice.controller;
 
+import com.noyex.fileservice.entity.FileEntity;
 import com.noyex.fileservice.service.IFileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -46,5 +48,10 @@ public class FileController {
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
                 .body(resource);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<FileEntity>> getAllFiles() {
+        return ResponseEntity.ok(fileService.getAllFiles());
     }
 }

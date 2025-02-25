@@ -1,5 +1,6 @@
 package com.noyex.productservice.controller;
 
+import com.noyex.productservice.enitity.DTOs.ProductDTO;
 import com.noyex.productservice.enitity.Product;
 import com.noyex.productservice.service.ProductService;
 import org.apache.coyote.Response;
@@ -19,7 +20,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> createProduct(@RequestBody ProductDTO product) {
         return ResponseEntity.ok(productService.createProduct(product));
     }
 
