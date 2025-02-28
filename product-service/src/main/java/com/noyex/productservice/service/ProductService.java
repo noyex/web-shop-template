@@ -1,9 +1,11 @@
 package com.noyex.productservice.service;
 
 import com.noyex.productservice.enitity.Brand;
+import com.noyex.productservice.enitity.Category;
 import com.noyex.productservice.enitity.DTOs.ProductDTO;
 import com.noyex.productservice.enitity.Product;
 import com.noyex.productservice.repository.BrandRepository;
+import com.noyex.productservice.repository.CategoryRepository;
 import com.noyex.productservice.repository.ProductRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -16,10 +18,12 @@ public class ProductService implements IProductService{
 
     private final ProductRepository productRepository;
     private final BrandRepository brandRepository;
+    private final CategoryRepository categoryRepository;
 
-    public ProductService(ProductRepository productRepository, BrandRepository brandRepository) {
+    public ProductService(ProductRepository productRepository, BrandRepository brandRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.brandRepository = brandRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -34,6 +38,12 @@ public class ProductService implements IProductService{
             throw new RuntimeException("Brand not found");
         }
         product.setBrand(brand.get());
+        Optional<Category> category = categoryRepository.findById(productDTO.getCategoryId());
+        if (category.isEmpty()){
+            throw new RuntimeException("Category not found");
+        }
+        product.setCategory(category.get());
+        product.setGeneralCategory(category.get().getGeneralCategory());
         return productRepository.save(product);
     }
 
