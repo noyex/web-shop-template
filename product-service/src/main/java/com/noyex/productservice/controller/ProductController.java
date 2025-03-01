@@ -19,7 +19,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Product> createProduct(@RequestBody ProductDTO product) {
         return ResponseEntity.ok(productService.createProduct(product));
     }
@@ -33,4 +33,11 @@ public class ProductController {
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         return ResponseEntity.ok(productService.getProductById(id));
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.ok().build();
+    }
+    
 }
