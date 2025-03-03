@@ -3,21 +3,18 @@ package com.noyex.productservice.service;
 import com.noyex.productservice.entity.Brand;
 import com.noyex.productservice.entity.Category;
 import com.noyex.productservice.entity.DTOs.ProductDTO;
+import com.noyex.productservice.entity.GeneralCategory;
 import com.noyex.productservice.entity.Product;
-import com.noyex.productservice.exception.BrandNotFoundException;
-import com.noyex.productservice.exception.CategoryNotFoundException;
-import com.noyex.productservice.exception.ProductNameExistsException;
-import com.noyex.productservice.exception.ProductNotFoundException;
+import com.noyex.productservice.exception.*;
 import com.noyex.productservice.repository.BrandRepository;
 import com.noyex.productservice.repository.CategoryRepository;
+import com.noyex.productservice.repository.GeneralCategoryRepository;
 import com.noyex.productservice.repository.ProductRepository;
 import com.noyex.productservice.service.interfaces.IProductService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService implements IProductService {
@@ -25,11 +22,13 @@ public class ProductService implements IProductService {
     private final ProductRepository productRepository;
     private final BrandRepository brandRepository;
     private final CategoryRepository categoryRepository;
+    private final GeneralCategoryRepository generalCategoryRepository;
 
-    public ProductService(ProductRepository productRepository, BrandRepository brandRepository, CategoryRepository categoryRepository) {
+    public ProductService(ProductRepository productRepository, BrandRepository brandRepository, CategoryRepository categoryRepository, GeneralCategoryRepository generalCategoryRepository) {
         this.productRepository = productRepository;
         this.brandRepository = brandRepository;
         this.categoryRepository = categoryRepository;
+        this.generalCategoryRepository = generalCategoryRepository;
     }
 
     @Override
@@ -71,6 +70,48 @@ public class ProductService implements IProductService {
         return createOrUpdateProduct(existingProduct, productDTO);
     }
 
+//    @Override
+//    public List<Product> getProductsByCategoryId(Long categoryId) {
+//        return productRepository.findByCategoryId(checkIfCategoryExists(categoryId).getId());
+//    }
+//
+//    @Override
+//    public List<Product> getProductsByGeneralCategoryId(Long generalCategoryId) {
+//        return productRepository.findByGeneralCategoryId(checkIfGeneralCategoryExists(generalCategoryId).getId());
+//    }
+//
+//    @Override
+//    public List<Product> getProductsByBestSellerTrue() {
+//        List<Product> products = productRepository.findByBestSellerTrue();
+//        if(products.isEmpty()) {
+//            throw new ProductNotFoundException("No bestseller products found");
+//        }
+//        return products;
+//    }
+//
+//    @Override
+//    public List<Product> getProductsByNewTrue() {
+//        List<Product> products = productRepository.findByNewArrivalTrue();
+//        if(products.isEmpty()) {
+//            throw new ProductNotFoundException("No new products found");
+//        }
+//        return products;
+//    }
+//
+//    @Override
+//    public List<Product> getProductsByOnSaleTrue() {
+//        List<Product> products = productRepository.findByOnSaleTrue();
+//        if(products.isEmpty()) {
+//            throw new ProductNotFoundException("No products on sale found");
+//        }
+//        return products;
+//    }
+//
+//    @Override
+//    public List<Product> getProductsByBrandId(Long brandId) {
+//        return productRepository.findByBrandId(checkIfBrandExists(brandId).getId());
+//    }
+
     private Product createOrUpdateProduct(Product product, ProductDTO productDto) {
         product.setName(productDto.getName());
         product.setDescription(productDto.getDescription());
@@ -83,12 +124,10 @@ public class ProductService implements IProductService {
             product.setCreatedAt(LocalDateTime.now());
         }
 
-        Brand brand = brandRepository.findById(productDto.getBrandId())
-                .orElseThrow(() -> new BrandNotFoundException("Brand not found"));
+        Brand brand = checkIfBrandExists(productDto.getBrandId());
         product.setBrand(brand);
 
-        Category category = categoryRepository.findById(productDto.getCategoryId())
-                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+        Category category = checkIfCategoryExists(productDto.getCategoryId());
         product.setCategory(category);
         product.setGeneralCategory(category.getGeneralCategory());
 
@@ -113,6 +152,20 @@ public class ProductService implements IProductService {
         return roundedPrice;
     }
 
+    private Category checkIfCategoryExists(Long id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+    }
+
+    private GeneralCategory checkIfGeneralCategoryExists(Long id) {
+        return generalCategoryRepository.findById(id)
+                .orElseThrow(() -> new GeneralCategoryNotFoundException("General Category not found"));
+    }
+
+    private Brand checkIfBrandExists(Long id) {
+        return brandRepository.findById(id)
+                .orElseThrow(() -> new BrandNotFoundException("Brand not found"));
+    }
 
     private Product checkIfProductExists(Long id) {
         return productRepository.findById(id)
