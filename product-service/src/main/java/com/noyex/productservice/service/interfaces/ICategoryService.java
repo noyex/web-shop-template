@@ -1,7 +1,7 @@
-package com.noyex.productservice.service;
+package com.noyex.productservice.service.interfaces;
 
-import com.noyex.productservice.enitity.Category;
-import com.noyex.productservice.enitity.DTOs.CategoryDTO;
+import com.noyex.productservice.entity.Category;
+import com.noyex.productservice.entity.DTOs.CategoryDTO;
 
 import java.util.List;
 

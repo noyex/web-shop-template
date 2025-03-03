@@ -1,6 +1,5 @@
-package com.noyex.productservice.enitity.DTOs;
+package com.noyex.productservice.entity.DTOs;
 
-import jakarta.persistence.GeneratedValue;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,8 +1,8 @@
-package com.noyex.productservice.service;
+package com.noyex.productservice.service.interfaces;
 
 
-import com.noyex.productservice.enitity.DTOs.ProductDTO;
-import com.noyex.productservice.enitity.Product;
+import com.noyex.productservice.entity.DTOs.ProductDTO;
+import com.noyex.productservice.entity.Product;
 
 import java.util.List;
 
@@ -11,4 +11,5 @@ public interface IProductService {
     List<Product> getAllProducts();
     Product getProductById(Long id);
     void deleteProduct(Long id);
+    Product updateProduct(Long id, ProductDTO productDTO);
 }

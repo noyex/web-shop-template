@@ -1,13 +1,13 @@
 package com.noyex.productservice.service;
 
-import com.noyex.productservice.enitity.Category;
-import com.noyex.productservice.enitity.DTOs.GeneralCategoryDTO;
-import com.noyex.productservice.enitity.GeneralCategory;
-import com.noyex.productservice.enitity.Product;
+import com.noyex.productservice.entity.Category;
+import com.noyex.productservice.entity.DTOs.GeneralCategoryDTO;
+import com.noyex.productservice.entity.GeneralCategory;
+import com.noyex.productservice.entity.Product;
 import com.noyex.productservice.repository.GeneralCategoryRepository;
+import com.noyex.productservice.service.interfaces.IGeneralCategoryService;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +67,8 @@ public class GeneralCategoryService implements IGeneralCategoryService {
 
     @Override
     public void deleteGeneralCategory(Long id) {
+        GeneralCategory generalCategory = generalCategoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("General category not found"));
         generalCategoryRepository.deleteById(id);
     }
 

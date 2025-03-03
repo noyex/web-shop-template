@@ -42,12 +42,20 @@ public class FileController {
 
     @GetMapping("/{fileId}")
     public ResponseEntity<Resource> getFile(@PathVariable Long fileId) throws IOException {
-        Resource resource = fileService.getFile(fileId);
-        Path filePath = resource.getFile().toPath();
-        String contentType = Files.probeContentType(filePath);
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .body(resource);
+        try {
+            Resource resource = fileService.getFile(fileId);
+            Path filePath = resource.getFile().toPath();
+            String contentType = Files.probeContentType(filePath);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .body(resource);
+        } catch (RuntimeException e) {
+            if (e.getMessage().equals("File not found")) {
+                return ResponseEntity.notFound().build();
+            } else {
+                throw e;
+            }
+        }
     }
 
     @GetMapping("/all")

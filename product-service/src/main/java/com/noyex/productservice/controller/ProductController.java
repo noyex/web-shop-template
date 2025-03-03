@@ -1,9 +1,8 @@
 package com.noyex.productservice.controller;
 
-import com.noyex.productservice.enitity.DTOs.ProductDTO;
-import com.noyex.productservice.enitity.Product;
+import com.noyex.productservice.entity.DTOs.ProductDTO;
+import com.noyex.productservice.entity.Product;
 import com.noyex.productservice.service.ProductService;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +34,14 @@ public class ProductController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Product deleted successfully");
     }
-    
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Product> updateProduct(@RequestBody ProductDTO product, @PathVariable Long id) {
+        return ResponseEntity.ok(productService.updateProduct(id, product));
+    }
+
 }

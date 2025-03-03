@@ -1,10 +1,11 @@
 package com.noyex.productservice.service;
 
-import com.noyex.productservice.enitity.Category;
-import com.noyex.productservice.enitity.DTOs.CategoryDTO;
-import com.noyex.productservice.enitity.GeneralCategory;
+import com.noyex.productservice.entity.Category;
+import com.noyex.productservice.entity.DTOs.CategoryDTO;
+import com.noyex.productservice.entity.GeneralCategory;
 import com.noyex.productservice.repository.CategoryRepository;
 import com.noyex.productservice.repository.GeneralCategoryRepository;
+import com.noyex.productservice.service.interfaces.ICategoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,6 +57,8 @@ public class CategoryService implements ICategoryService {
         if(categoryOptional.isPresent()) {
             Category category = categoryOptional.get();
             category.setName(categoryDTO.getName());
+            category.setGeneralCategory(generalCategoryRepository.findById(categoryDTO.getGeneralCategoryId())
+                    .orElseThrow(() -> new RuntimeException("General category not found")));
             return categoryRepository.save(category);
         }
         throw new RuntimeException("Category not found");

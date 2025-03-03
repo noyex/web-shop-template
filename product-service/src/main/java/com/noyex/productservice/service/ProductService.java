@@ -1,20 +1,20 @@
 package com.noyex.productservice.service;
 
-import com.noyex.productservice.enitity.Brand;
-import com.noyex.productservice.enitity.Category;
-import com.noyex.productservice.enitity.DTOs.ProductDTO;
-import com.noyex.productservice.enitity.Product;
+import com.noyex.productservice.entity.Brand;
+import com.noyex.productservice.entity.Category;
+import com.noyex.productservice.entity.DTOs.ProductDTO;
+import com.noyex.productservice.entity.Product;
 import com.noyex.productservice.repository.BrandRepository;
 import com.noyex.productservice.repository.CategoryRepository;
 import com.noyex.productservice.repository.ProductRepository;
-import org.springframework.stereotype.Component;
+import com.noyex.productservice.service.interfaces.IProductService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductService implements IProductService{
+public class ProductService implements IProductService {
 
     private final ProductRepository productRepository;
     private final BrandRepository brandRepository;
@@ -59,6 +59,38 @@ public class ProductService implements IProductService{
 
     @Override
     public void deleteProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
         productRepository.deleteById(id);
+    }
+
+    @Override
+    public Product updateProduct(Long id, ProductDTO productDTO) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        if(productOptional.isEmpty()){
+            throw new RuntimeException("Product not found");
+        }
+
+        Product updatedProduct = productOptional.get();
+
+        updatedProduct.setName(productDTO.getName());
+        updatedProduct.setDescription(productDTO.getDescription());
+        updatedProduct.setPrice(productDTO.getPrice());
+        updatedProduct.setStock(productDTO.getStock());
+
+        Optional<Brand> brand = brandRepository.findById(productDTO.getBrandId());
+        if (brand.isEmpty()){
+            throw new RuntimeException("Brand not found");
+        }
+        updatedProduct.setBrand(brand.get());
+
+        Optional<Category> category = categoryRepository.findById(productDTO.getCategoryId());
+        if (category.isEmpty()){
+            throw new RuntimeException("Category not found");
+        }
+        updatedProduct.setCategory(category.get());
+
+        updatedProduct.setGeneralCategory(category.get().getGeneralCategory());
+        return productRepository.save(updatedProduct);
     }
 }

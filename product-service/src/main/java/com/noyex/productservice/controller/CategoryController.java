@@ -1,9 +1,8 @@
 package com.noyex.productservice.controller;
 
-import com.noyex.productservice.enitity.Category;
-import com.noyex.productservice.enitity.DTOs.CategoryDTO;
+import com.noyex.productservice.entity.Category;
+import com.noyex.productservice.entity.DTOs.CategoryDTO;
 import com.noyex.productservice.service.CategoryService;
-import com.noyex.productservice.service.ICategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,13 +29,18 @@ public class CategoryController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+    public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Category deleted successfully");
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<Category>> getAllCategories() {
         return ResponseEntity.ok(categoryService.getAllCategories());
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Category> updateCategory(@RequestBody CategoryDTO category, @PathVariable Long id) {
+        return ResponseEntity.ok(categoryService.updateCategory(id, category));
     }
 }

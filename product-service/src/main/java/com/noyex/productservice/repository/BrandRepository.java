@@ -1,6 +1,6 @@
 package com.noyex.productservice.repository;
 
-import com.noyex.productservice.enitity.Brand;
+import com.noyex.productservice.entity.Brand;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
