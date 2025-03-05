@@ -115,6 +115,41 @@ public class BrandServiceTest {
 
         verify(brandRepository).findById(1L);
     }
-    
+
+
+    @Test
+    public void testUpdateBrand_Success(){
+        when(brandRepository.findById(1L)).thenReturn(Optional.of(brand));
+        when(brandRepository.save(any(Brand.class))).thenReturn(brand);
+
+        Brand result = brandService.updateBrand(1L, brandDTO);
+
+        assertNotNull(result);
+        assertEquals(brandDTO.getName(), result.getName());
+        assertEquals(brandDTO.getDescription(), result.getDescription());
+        assertEquals(brandDTO.getLogoFileId(), result.getLogoFileId());
+        verify(restTemplate).headForHeaders(anyString());
+        verify(brandRepository).findById(1L);
+        verify(brandRepository).save(any(Brand.class));
+    }
+
+    @Test
+    public void testUpdateBrand_NotFound(){
+        when(brandRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> {
+            brandService.updateBrand(1L, brandDTO);
+        });
+        verify(restTemplate).headForHeaders(anyString());
+        verify(brandRepository).findById(1L);
+        verify(brandRepository, never()).save(any(Brand.class));
+    }
+
+    @Test
+    public void testDeleteBrand_Succes(){
+        brandService.deleteBrand(1L);
+
+        verify(brandRepository).deleteById(1L);
+    }
 
 }
