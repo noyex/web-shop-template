@@ -88,29 +88,29 @@ public class ProductService implements IProductService {
         }
         return products;
     }
-//
-//    @Override
-//    public List<Product> getProductsByNewTrue() {
-//        List<Product> products = productRepository.findByNewArrivalTrue();
-//        if(products.isEmpty()) {
-//            throw new ProductNotFoundException("No new products found");
-//        }
-//        return products;
-//    }
-//
-//    @Override
-//    public List<Product> getProductsByOnSaleTrue() {
-//        List<Product> products = productRepository.findByOnSaleTrue();
-//        if(products.isEmpty()) {
-//            throw new ProductNotFoundException("No products on sale found");
-//        }
-//        return products;
-//    }
-//
-//    @Override
-//    public List<Product> getProductsByBrandId(Long brandId) {
-//        return productRepository.findByBrandId(checkIfBrandExists(brandId).getId());
-//    }
+
+    @Override
+    public List<Product> getProductsByIsNewArrivalTrue() {
+        List<Product> products = productRepository.findByIsNewArrivalTrue();
+        if(products.isEmpty()) {
+            throw new ProductNotFoundException("No new products found");
+        }
+        return products;
+    }
+
+    @Override
+    public List<Product> getProductsByOnSaleTrue() {
+        List<Product> products = productRepository.findByIsOnSaleTrue();
+        if(products.isEmpty()) {
+            throw new ProductNotFoundException("No products on sale found");
+        }
+        return products;
+    }
+
+    @Override
+    public List<Product> getProductsByBrandId(Long brandId) {
+        return productRepository.findByBrand_Id(checkIfBrandExists(brandId).getId());
+    }
 
     private Product createOrUpdateProduct(Product product, ProductDTO productDto) {
         product.setName(productDto.getName());
@@ -134,7 +134,7 @@ public class ProductService implements IProductService {
         product.setBestSeller(isProductBestseller(product));
         product.setSoldOut(isProductSoldOut(product));
         product.setOnSale(isProductOnSale(product));
-        product.setNew(isNewProduct(product));
+        product.setNewArrival(isNewProduct(product));
         product.setAlmostSoldOut(isAlmostSoldOut(product));
 
         return productRepository.save(product);

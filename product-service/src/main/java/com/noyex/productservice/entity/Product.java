@@ -36,6 +36,6 @@ public class Product {
     private boolean isBestSeller;
     private boolean isSoldOut;
     private boolean isOnSale;
-    private boolean isNew;
+    private boolean isNewArrival;
     private boolean isAlmostSoldOut;
 }

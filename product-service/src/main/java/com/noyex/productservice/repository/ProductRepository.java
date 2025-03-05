@@ -12,7 +12,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByCategory_Id(Long categoryId);
     List<Product> findByGeneralCategory_Id(Long generalCategoryId);
     List<Product> findByIsBestSellerTrue();
-//    List<Product> findByNewArrivalTrue();
-//    List<Product> findByOnSaleTrue();
-//    List<Product> findByBrandId(Long brandId);
+    List<Product> findByIsNewArrivalTrue();
+    List<Product> findByIsOnSaleTrue();
+    List<Product> findByBrand_Id(Long brandId);
 }

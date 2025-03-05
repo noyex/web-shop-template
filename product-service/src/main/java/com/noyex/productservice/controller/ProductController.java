@@ -58,20 +58,20 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProductsByBestSellerTrue() {
         return ResponseEntity.ok(productService.getProductsByBestSellerTrue());
     }
-//
-//    @GetMapping("/all/new")
-//    public ResponseEntity<List<Product>> getProductsByNewTrue() {
-//        return ResponseEntity.ok(productService.getProductsByNewTrue());
-//    }
-//
-//    @GetMapping("/all/onsale")
-//    public ResponseEntity<List<Product>> getProductsByOnSaleTrue() {
-//        return ResponseEntity.ok(productService.getProductsByOnSaleTrue());
-//    }
-//
-//    @GetMapping("/all/brand/{brandId}")
-//    public ResponseEntity<List<Product>> getProductsByBrandId(@PathVariable Long brandId) {
-//        return ResponseEntity.ok(productService.getProductsByBrandId(brandId));
-//    }
+
+    @GetMapping("/all/new")
+    public ResponseEntity<List<Product>> getProductsByNewTrue() {
+        return ResponseEntity.ok(productService.getProductsByIsNewArrivalTrue());
+    }
+
+    @GetMapping("/all/onsale")
+    public ResponseEntity<List<Product>> getProductsByOnSaleTrue() {
+        return ResponseEntity.ok(productService.getProductsByOnSaleTrue());
+    }
+
+    @GetMapping("/all/brand/{brandId}")
+    public ResponseEntity<List<Product>> getProductsByBrandId(@PathVariable Long brandId) {
+        return ResponseEntity.ok(productService.getProductsByBrandId(brandId));
+    }
 
 }
