@@ -4,6 +4,7 @@ import com.noyex.productservice.entity.Category;
 import com.noyex.productservice.entity.DTOs.CategoryDTO;
 import com.noyex.productservice.entity.GeneralCategory;
 import com.noyex.productservice.exception.CategoryNotFoundException;
+import com.noyex.productservice.exception.GeneralCategoryNotFoundException;
 import com.noyex.productservice.exception.ProductNameExistsException;
 import com.noyex.productservice.repository.CategoryRepository;
 import com.noyex.productservice.repository.GeneralCategoryRepository;
@@ -37,7 +38,7 @@ public class CategoryService implements ICategoryService {
         Category category = new Category();
         category.setName(categoryDTO.getName());
         GeneralCategory generalCategory = generalCategoryRepository.findById(categoryDTO.getGeneralCategoryId())
-                .orElseThrow(() -> new CategoryNotFoundException("General category not found"));
+                .orElseThrow(() -> new GeneralCategoryNotFoundException("General category not found"));
         category.setGeneralCategory(generalCategory);
         return categoryRepository.save(category);
     }
@@ -60,7 +61,7 @@ public class CategoryService implements ICategoryService {
             Category category = categoryOptional.get();
             category.setName(categoryDTO.getName());
             category.setGeneralCategory(generalCategoryRepository.findById(categoryDTO.getGeneralCategoryId())
-                    .orElseThrow(() -> new CategoryNotFoundException("General category not found")));
+                    .orElseThrow(() -> new GeneralCategoryNotFoundException("General category not found")));
             return categoryRepository.save(category);
         }
         throw new CategoryNotFoundException("Category not found");
