@@ -14,9 +14,9 @@ public interface IProductService {
     Product getProductById(Long id);
     void deleteProduct(Long id);
     Product updateProduct(Long id, ProductDTO productDTO);
-//    List<Product> getProductsByCategoryId(Long categoryId);
-//    List<Product> getProductsByGeneralCategoryId(Long generalCategoryId);
-//    List<Product> getProductsByBestSellerTrue();
+    List<Product> getProductsByCategoryId(Long categoryId);
+    List<Product> getProductsByGeneralCategoryId(Long generalCategoryId);
+    List<Product> getProductsByBestSellerTrue();
 //    List<Product> getProductsByNewTrue();
 //    List<Product> getProductsByOnSaleTrue();
 //    List<Product> getProductsByBrandId(Long brandId);

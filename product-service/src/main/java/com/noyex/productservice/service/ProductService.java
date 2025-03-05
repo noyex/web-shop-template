@@ -70,24 +70,24 @@ public class ProductService implements IProductService {
         return createOrUpdateProduct(existingProduct, productDTO);
     }
 
-//    @Override
-//    public List<Product> getProductsByCategoryId(Long categoryId) {
-//        return productRepository.findByCategoryId(checkIfCategoryExists(categoryId).getId());
-//    }
-//
-//    @Override
-//    public List<Product> getProductsByGeneralCategoryId(Long generalCategoryId) {
-//        return productRepository.findByGeneralCategoryId(checkIfGeneralCategoryExists(generalCategoryId).getId());
-//    }
-//
-//    @Override
-//    public List<Product> getProductsByBestSellerTrue() {
-//        List<Product> products = productRepository.findByBestSellerTrue();
-//        if(products.isEmpty()) {
-//            throw new ProductNotFoundException("No bestseller products found");
-//        }
-//        return products;
-//    }
+    @Override
+    public List<Product> getProductsByCategoryId(Long categoryId) {
+        return productRepository.findByCategory_Id(checkIfCategoryExists(categoryId).getId());
+    }
+
+    @Override
+    public List<Product> getProductsByGeneralCategoryId(Long generalCategoryId) {
+        return productRepository.findByGeneralCategory_Id(checkIfGeneralCategoryExists(generalCategoryId).getId());
+    }
+
+    @Override
+    public List<Product> getProductsByBestSellerTrue() {
+        List<Product> products = productRepository.findByIsBestSellerTrue();
+        if(products.isEmpty()) {
+            throw new ProductNotFoundException("No bestseller products found");
+        }
+        return products;
+    }
 //
 //    @Override
 //    public List<Product> getProductsByNewTrue() {

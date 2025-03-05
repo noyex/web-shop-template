@@ -44,20 +44,20 @@ public class ProductController {
         return ResponseEntity.ok(productService.updateProduct(id, product));
     }
 
-//    @GetMapping("/all/category/{categoryId}")
-//    public ResponseEntity<List<Product>> getProductsByCategoryId(@PathVariable Long categoryId) {
-//        return ResponseEntity.ok(productService.getProductsByCategoryId(categoryId));
-//    }
-//
-//    @GetMapping("/all/general-category/{generalCategoryId}")
-//    public ResponseEntity<List<Product>> getProductsByGeneralCategoryId(@PathVariable Long generalCategoryId) {
-//        return ResponseEntity.ok(productService.getProductsByGeneralCategoryId(generalCategoryId));
-//    }
-//
-//    @GetMapping("/all/bestseller")
-//    public ResponseEntity<List<Product>> getProductsByBestSellerTrue() {
-//        return ResponseEntity.ok(productService.getProductsByBestSellerTrue());
-//    }
+    @GetMapping("/all/category/{categoryId}")
+    public ResponseEntity<List<Product>> getProductsByCategoryId(@PathVariable Long categoryId) {
+        return ResponseEntity.ok(productService.getProductsByCategoryId(categoryId));
+    }
+
+    @GetMapping("/all/general-category/{generalCategoryId}")
+    public ResponseEntity<List<Product>> getProductsByGeneralCategoryId(@PathVariable Long generalCategoryId) {
+        return ResponseEntity.ok(productService.getProductsByGeneralCategoryId(generalCategoryId));
+    }
+
+    @GetMapping("/all/bestseller")
+    public ResponseEntity<List<Product>> getProductsByBestSellerTrue() {
+        return ResponseEntity.ok(productService.getProductsByBestSellerTrue());
+    }
 //
 //    @GetMapping("/all/new")
 //    public ResponseEntity<List<Product>> getProductsByNewTrue() {

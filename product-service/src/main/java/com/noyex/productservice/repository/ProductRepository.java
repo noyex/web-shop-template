@@ -9,9 +9,9 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     boolean existsByName(String name);
-//    List<Product> findByCategoryId(Long categoryId);
-//    List<Product> findByGeneralCategoryId(Long generalCategoryId);
-//    List<Product> findByBestSellerTrue();
+    List<Product> findByCategory_Id(Long categoryId);
+    List<Product> findByGeneralCategory_Id(Long generalCategoryId);
+    List<Product> findByIsBestSellerTrue();
 //    List<Product> findByNewArrivalTrue();
 //    List<Product> findByOnSaleTrue();
 //    List<Product> findByBrandId(Long brandId);
