@@ -3,6 +3,8 @@ package com.noyex.productservice.service;
 import com.noyex.productservice.entity.Category;
 import com.noyex.productservice.entity.DTOs.CategoryDTO;
 import com.noyex.productservice.entity.GeneralCategory;
+import com.noyex.productservice.exception.CategoryNotFoundException;
+import com.noyex.productservice.exception.ProductNameExistsException;
 import com.noyex.productservice.repository.CategoryRepository;
 import com.noyex.productservice.repository.GeneralCategoryRepository;
 import com.noyex.productservice.service.interfaces.ICategoryService;
@@ -29,13 +31,13 @@ public class CategoryService implements ICategoryService {
         }
         boolean exists = categoryRepository.existsByName(categoryDTO.getName());
         if(exists) {
-            throw new IllegalArgumentException("Category already exists");
+            throw new ProductNameExistsException("Category already exists");
         }
 
         Category category = new Category();
         category.setName(categoryDTO.getName());
         GeneralCategory generalCategory = generalCategoryRepository.findById(categoryDTO.getGeneralCategoryId())
-                .orElseThrow(() -> new RuntimeException("General category not found"));
+                .orElseThrow(() -> new CategoryNotFoundException("General category not found"));
         category.setGeneralCategory(generalCategory);
         return categoryRepository.save(category);
     }
@@ -43,7 +45,7 @@ public class CategoryService implements ICategoryService {
     @Override
     public Category getCategoryById(Long id) {
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
     }
 
     @Override
@@ -58,17 +60,17 @@ public class CategoryService implements ICategoryService {
             Category category = categoryOptional.get();
             category.setName(categoryDTO.getName());
             category.setGeneralCategory(generalCategoryRepository.findById(categoryDTO.getGeneralCategoryId())
-                    .orElseThrow(() -> new RuntimeException("General category not found")));
+                    .orElseThrow(() -> new CategoryNotFoundException("General category not found")));
             return categoryRepository.save(category);
         }
-        throw new RuntimeException("Category not found");
+        throw new CategoryNotFoundException("Category not found");
     }
 
     @Override
     public void deleteCategory(Long id) {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
         if(categoryOptional.isEmpty()) {
-            throw new RuntimeException("Category not found");
+            throw new CategoryNotFoundException("Category not found");
         }
         categoryRepository.deleteById(id);
     }

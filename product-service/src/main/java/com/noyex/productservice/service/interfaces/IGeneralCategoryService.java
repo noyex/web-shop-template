@@ -13,6 +13,4 @@ public interface IGeneralCategoryService {
     List<GeneralCategory> getAllGeneralCategories();
     GeneralCategory updateGeneralCategory(GeneralCategoryDTO generalCategory, Long id);
     void deleteGeneralCategory(Long id);
-    List<Product> getProductsByGeneralCategoryId(Long id);
-    List<Category> getCategoriesByGeneralCategoryId(Long id);
 }

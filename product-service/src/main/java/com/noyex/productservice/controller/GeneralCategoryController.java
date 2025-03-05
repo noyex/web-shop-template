@@ -44,14 +44,4 @@ public class GeneralCategoryController {
         return ResponseEntity.ok("General Category deleted successfully");
     }
 
-//    @GetMapping("/{id}/products")
-//    public ResponseEntity<List<Product>> getProductsByGeneralCategoryId(@PathVariable Long id) {
-//        return ResponseEntity.ok(generalCategoryService.getProductsByGeneralCategoryId(id));
-//    }
-//
-//    @GetMapping("/{id}/categories")
-//    public ResponseEntity<List<Category>> getCategoriesByGeneralCategoryId(@PathVariable Long id) {
-//        return ResponseEntity.ok(generalCategoryService.getCategoriesByGeneralCategoryId(id));
-//    }
-
 }

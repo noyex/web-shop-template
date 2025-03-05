@@ -2,6 +2,7 @@ package com.noyex.productservice.service;
 
 import com.noyex.productservice.entity.Brand;
 import com.noyex.productservice.entity.DTOs.BrandDTO;
+import com.noyex.productservice.exception.BrandNotFoundException;
 import com.noyex.productservice.exception.ResourceNotFoundException;
 import com.noyex.productservice.repository.BrandRepository;
 import com.noyex.productservice.service.interfaces.IBrandService;
@@ -55,7 +56,7 @@ public class BrandService implements IBrandService {
 
     @Override
     public Brand getBrandById(Long id) {
-        return brandRepository.findById(id).orElseThrow(() -> new RuntimeException("Brand not found"));
+        return brandRepository.findById(id).orElseThrow(() -> new BrandNotFoundException("Brand not found"));
     }
 
     @Override
@@ -67,7 +68,7 @@ public class BrandService implements IBrandService {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
                 throw new ResourceNotFoundException("File not found with ID: " + brandDTO.getLogoFileId());
             }
-            throw new RuntimeException("Error checking file: " + e.getMessage());
+            throw new ResourceNotFoundException("Error checking file: " + e.getMessage());
         }
 
         Brand updatedBrand = brandRepository.findById(id)
